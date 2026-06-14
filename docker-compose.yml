@@ -1,0 +1,23 @@
+services:
+  electricity-meter:
+    build: .
+    container_name: electricity-meter
+    restart: unless-stopped
+    environment:
+      # Required — set these to your actual values
+      WAVESHARE_HOST: "192.168.1.100"
+      MQTT_HOST: "192.168.1.10"
+      # Optional — uncomment and set as needed
+      # WAVESHARE_PORT: "4196"
+      # MQTT_PORT: "1883"
+      # MQTT_USERNAME: ""
+      # MQTT_PASSWORD: ""
+      # MQTT_BASE_TOPIC: "electricity_meter"
+      # MQTT_DISCOVERY_PREFIX: "homeassistant"
+      # METER_DEVICE_ID: "st402d"
+      # LOG_LEVEL: "INFO"
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
