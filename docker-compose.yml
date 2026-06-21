@@ -1,6 +1,6 @@
 services:
   electricity-meter:
-    build: .
+    image: ghcr.io/xandys/st402d-electricity-meter-mqtt-bridge:latest
     container_name: electricity-meter
     restart: unless-stopped
     environment:
