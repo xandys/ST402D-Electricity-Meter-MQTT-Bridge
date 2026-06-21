@@ -5,7 +5,7 @@ Bridges a **Meter & Control ST402D** electricity meter to **MQTT** with automati
 The meter pushes DLMS/COSEM frames over RS-485. A [Waveshare RS485-TO-ETH-B](https://www.waveshare.com/rs485-to-eth-b.htm) converter exposes that serial stream as a TCP socket. This bridge connects to that socket, parses each push frame, and publishes the values to MQTT.
 
 ```
-ST402D meter ─(RS-485)─► Waveshare RS485-ETH ─(TCP)─► this bridge ─(MQTT)─► Home Assistant
+ST402D meter ─(RS-485)─► Waveshare RS485-TO-ETH-B ─(TCP)─► this bridge ─(MQTT)─► Home Assistant
 ```
 
 ## Features
@@ -49,12 +49,20 @@ ST402D meter ─(RS-485)─► Waveshare RS485-ETH ─(TCP)─► this bridge �
 ### Prerequisites
 
 - Docker and Docker Compose
-- Waveshare RS485-ETH converter configured in **TCP Server** mode (default port `4196`)
+- Waveshare RS485-TO-ETH-B configured in **TCP Server** mode (default port `4196`)
 - MQTT broker (e.g. Mosquitto)
 
 ### Quick start
 
-1. Clone the repo and edit `docker-compose.yml`:
+No repo clone needed — the image is published to the GitHub Container Registry and pulled automatically.
+
+1. Download `docker-compose.yml`:
+
+```bash
+curl -O https://raw.githubusercontent.com/xandys/ST402D-Electricity-Meter-MQTT-Bridge/master/docker-compose.yml
+```
+
+2. Set your values in `docker-compose.yml`:
 
 ```yaml
 environment:
@@ -62,13 +70,13 @@ environment:
   MQTT_HOST: "192.168.1.10"         # IP of your MQTT broker
 ```
 
-2. Start:
+3. Start:
 
 ```bash
 docker compose up -d
 ```
 
-3. Check logs:
+4. Check logs:
 
 ```bash
 docker compose logs -f
@@ -78,7 +86,7 @@ docker compose logs -f
 
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
-| `WAVESHARE_HOST` | yes | — | IP or hostname of the Waveshare RS485-ETH converter |
+| `WAVESHARE_HOST` | yes | — | IP or hostname of the Waveshare RS485-TO-ETH-B converter |
 | `WAVESHARE_PORT` | no | `4196` | TCP port on the Waveshare device |
 | `MQTT_HOST` | yes | — | MQTT broker hostname or IP |
 | `MQTT_PORT` | no | `1883` | MQTT broker port |
